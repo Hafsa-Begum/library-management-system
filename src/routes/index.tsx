@@ -11,7 +11,7 @@ const router = createBrowserRouter([
             {
                 path: "books",
                 Component: AllBooks
-            }
+            },
         ]
     }
 ]);
