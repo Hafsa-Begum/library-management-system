@@ -1,5 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { useGetAllBookQuery } from '@/redux/api/bookApi';
+import {Link} from 'react-router'
 
 
 export default function AllBooks() {
@@ -10,16 +11,17 @@ export default function AllBooks() {
   return (
     <>
     <section className="grid grid-cols-3 gap-4 p-16">
-      {data.data.map((quiz) => {
+      {data.data.map((book) => {
         return (
-          <Card
-            key={quiz._id}
-            className="cursor-pointer p-4"
-            onClick={() => handleSetQuiz(quiz)}
-          >
-            <h3>{quiz.title}</h3>
-            <p>{quiz.description}</p>
-          </Card>
+          <Link to={`/books/${book._id}`}>
+            <Card
+              key={book._id}
+              className="cursor-pointer p-4"
+            >
+              <h3>{book.title}</h3>
+              <p>{book.description}</p>
+            </Card>
+          </Link>
         );
       })}
       

@@ -11,8 +11,12 @@ export const bookApi = createApi({
     getAllBook:builder.query({
         query:()=>"/api/books",
         providesTags:["book"]
+    }),
+    getSingleBook:builder.query({
+        query:(bookId)=>`/api/books/${bookId}`,
+        providesTags:["single-book"]
     })
   }),
 });
 
-export const {useGetAllBookQuery}=bookApi;
+export const {useGetAllBookQuery, useGetSingleBookQuery}=bookApi;

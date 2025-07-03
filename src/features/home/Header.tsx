@@ -11,6 +11,16 @@ const routes = [
         routeName: 'All Books',
         routePath: '/books'
     },
+    {
+        id: 3,
+        routeName: 'Add Book',
+        routePath: '/create-book'
+    },
+    {
+        id: 4,
+        routeName: 'Borrow Summery',
+        routePath: '/borrow-summery'
+    },
   ]
 const Header = () => {
     return (
