@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -20,8 +19,17 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 
 const FormSchema = z.object({
-    username: z.string().min(2, {
-        message: "Username must be at least 2 characters.",
+    title: z.string({
+        message: "Title is required.",
+    }),
+    author: z.string({
+        message: "Author name is required.",
+    }),
+    description: z.string({
+        message: "Please provide description.",
+    }),
+    genre: z.string({
+        message: "Please provide genre.",
     }),
 })
 
@@ -29,7 +37,7 @@ export default function AddBook() {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            username: "",
+            title: "",
         },
     })
 

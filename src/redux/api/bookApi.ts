@@ -14,7 +14,7 @@ export const bookApi = createApi({
     }),
     getSingleBook:builder.query({
         query:(bookId)=>`/api/books/${bookId}`,
-        providesTags:["single-book"]
+        // providesTags:["single-book"]
     })
   }),
 });

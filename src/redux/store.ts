@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { bookApi } from "./api/bookApi";
 import { borrowApi } from "./api/borrowApi";
-import bookSlice from "./features/bookSlice";
+// import bookSlice from "./features/bookSlice";
 
 export const store = configureStore({
     reducer:{
-        book: bookSlice.reducer,
+        // book: bookSlice.reducer,
         [bookApi.reducerPath]:bookApi.reducer,
         [borrowApi.reducerPath]:borrowApi.reducer
     },

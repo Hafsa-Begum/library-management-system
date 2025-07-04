@@ -11,7 +11,7 @@ export default function AllBooks() {
   return (
     <>
     <section className="grid grid-cols-3 gap-4 p-16">
-      {data.data.map((book) => {
+      {data.data.map((book:any) => {
         return (
           <Link to={`/books/${book._id}`}>
             <Card
