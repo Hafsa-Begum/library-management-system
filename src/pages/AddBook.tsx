@@ -17,6 +17,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { useAddBookMutation } from "@/redux/api/bookApi"
+import { useNavigate } from 'react-router';
 
 const FormSchema = z.object({
     title: z.string({
@@ -25,6 +27,13 @@ const FormSchema = z.object({
     author: z.string({
         message: "Author name is required.",
     }),
+    isbn: z.string({
+        message: "ISBN is required.",
+    }),
+    copies: z.number({
+        required_error: "Available book copies number is required.",
+    })
+    .min(1, { message: "At least one copy is required." }),
     description: z.string({
         message: "Please provide description.",
     }),
@@ -38,17 +47,25 @@ export default function AddBook() {
         resolver: zodResolver(FormSchema),
         defaultValues: {
             title: "",
+            author: "",
+            description: "",
+            genre: "",
         },
-    })
+    });
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
-        toast("You submitted the following values", {
-            description: (
-                <pre className="mt-2 w-[320px] rounded-md bg-neutral-950 p-4">
-                    <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-                </pre>
-            ),
-        })
+    const navigate = useNavigate();
+    const [addBook, { isLoading, isError, isSuccess }] = useAddBookMutation();
+
+    const onSubmit = async(data: z.infer<typeof FormSchema>) =>{
+        const bookData={
+            ...data,
+            available: true
+        }
+        const res = await addBook(bookData);
+        console.log(res);
+        toast("book added successfully");
+        console.log('book data', bookData)
+        navigate('/books');
     }
 
     return (
@@ -77,6 +94,36 @@ export default function AddBook() {
                                 <FormLabel>Author</FormLabel>
                                 <FormControl>
                                     <Input placeholder="Author" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="isbn"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>ISBN</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="ISBN" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="copies"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Copies Available</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        type="number"
+                                        placeholder="Copies" 
+                                        value={field.value}
+                                        onChange={(e) => field.onChange(+e.target.value)} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>

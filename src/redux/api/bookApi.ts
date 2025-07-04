@@ -5,18 +5,26 @@ export const bookApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_BACKEND_URL,
   }),
-  tagTypes: ["book"],
+  tagTypes: ["book", "single-book"],
   endpoints: (builder) => ({
 
     getAllBook:builder.query({
         query:()=>"/api/books",
-        providesTags:["book"]
+        // providesTags:["book"]
     }),
     getSingleBook:builder.query({
         query:(bookId)=>`/api/books/${bookId}`,
-        // providesTags:["single-book"]
-    })
+        providesTags:["single-book"]
+    }),
+    addBook: builder.mutation({
+      query: (body) => ({
+        url: "/api/books",
+        method: "POST",
+        body,
+      }),
+      // invalidatesTags:["book"]
+    }),
   }),
 });
 
-export const {useGetAllBookQuery, useGetSingleBookQuery}=bookApi;
+export const {useGetAllBookQuery, useGetSingleBookQuery, useAddBookMutation}=bookApi;
