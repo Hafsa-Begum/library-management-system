@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const borrowApi = createApi({
   reducerPath: "borrowApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:4000",
+    baseUrl: import.meta.env.VITE_BACKEND_URL,
   }),
   tagTypes: ["borrow"],
   endpoints: (builder) => ({

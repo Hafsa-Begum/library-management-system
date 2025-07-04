@@ -6,7 +6,7 @@ import {Link} from 'react-router'
 export default function AllBooks() {
   
   const { data, isLoading } = useGetAllBookQuery(undefined);
-  // console.log("data", data.data)
+  console.log("env", import.meta.env.VITE_BACKEND_URL)
   if (isLoading) return <div>Loading...</div>;
   return (
     <>
