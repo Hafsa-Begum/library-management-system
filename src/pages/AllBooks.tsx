@@ -30,6 +30,10 @@ export default function AllBooks() {
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      quantity: 1,
+      dueDate: null
+    }
   })
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast("You submitted the following values", {
@@ -39,6 +43,7 @@ export default function AllBooks() {
         </pre>
       ),
     })
+    console.log("error", form.formState.errors)
     console.log("borrow data", data)
   }
 
@@ -72,12 +77,13 @@ export default function AllBooks() {
                 </Link>
                 <div>
                   <Dialog className="bg-blue-100 text-blue-900 dark:bg-blue-950 dark:text-blue-100">
+                    <DialogTrigger asChild>
+                      <Button variant="outline">Borrow Book</Button>
+                    </DialogTrigger>
+
+                        <DialogContent className="bg-blue-100 text-blue-900 dark:bg-blue-950 dark:text-blue-100">
                     <Form {...form}>
                       <form onSubmit={form.handleSubmit(onSubmit)}>
-                        <DialogTrigger asChild>
-                          <Button variant="outline">Borrow Book</Button>
-                        </DialogTrigger>
-                        <DialogContent className="bg-blue-100 text-blue-900 dark:bg-blue-950 dark:text-blue-100">
                           <DialogHeader>
                             <DialogTitle>Borrow Book</DialogTitle>
                             <DialogDescription>
@@ -154,9 +160,9 @@ export default function AllBooks() {
                             </DialogClose>
                             <Button type="submit">Borrow</Button>
                           </DialogFooter>
-                        </DialogContent>
                       </form>
                     </Form>
+                        </DialogContent>
                   </Dialog>
                 </div>
               </div>
