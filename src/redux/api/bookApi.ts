@@ -10,7 +10,7 @@ export const bookApi = createApi({
 
     getAllBook:builder.query({
         query:()=>"/api/books",
-        // providesTags:["book"]
+        providesTags:["book"]
     }),
     getSingleBook:builder.query({
         query:(bookId)=>`/api/books/${bookId}`,
@@ -24,7 +24,20 @@ export const bookApi = createApi({
       }),
       // invalidatesTags:["book"]
     }),
+    updateBook: builder.mutation({
+      query: ({id, body}) => ({
+        url: `/api/books/${id}`,
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags:["book"]
+    }),
   }),
 });
 
-export const {useGetAllBookQuery, useGetSingleBookQuery, useAddBookMutation}=bookApi;
+export const {
+  useGetAllBookQuery, 
+  useGetSingleBookQuery, 
+  useAddBookMutation,
+  useUpdateBookMutation
+}=bookApi;

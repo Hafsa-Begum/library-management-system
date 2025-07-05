@@ -17,8 +17,9 @@ import {
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { useAddBookMutation } from "@/redux/api/bookApi"
-import { useNavigate } from 'react-router';
+import { useAddBookMutation, useGetSingleBookQuery, useUpdateBookMutation } from "@/redux/api/bookApi"
+import { useNavigate, useParams } from 'react-router';
+import { useEffect } from "react"
 
 const FormSchema = z.object({
     title: z.string({
@@ -43,34 +44,67 @@ const FormSchema = z.object({
 })
 
 export default function AddBook() {
-    const form = useForm<z.infer<typeof FormSchema>>({
-        resolver: zodResolver(FormSchema),
-        defaultValues: {
-            title: "",
-            author: "",
-            description: "",
-            genre: "",
-        },
-    });
+    const { id } = useParams()
+  const navigate = useNavigate()
 
-    const navigate = useNavigate();
-    const [addBook, { isLoading, isError, isSuccess }] = useAddBookMutation();
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      title: "",
+      author: "",
+      isbn: "",
+      copies: 1,
+      description: "",
+      genre: "",
+    },
+  })
 
-    const onSubmit = async(data: z.infer<typeof FormSchema>) =>{
-        const bookData={
-            ...data,
-            available: true
-        }
-        const res = await addBook(bookData);
-        console.log(res);
-        toast("book added successfully");
-        console.log('book data', bookData)
-        navigate('/books');
+  const [addBook] = useAddBookMutation()
+  const [updateBook] = useUpdateBookMutation()
+  const { data, isLoading } = useGetSingleBookQuery(id, {
+    skip: !id,
+  })
+
+  // Populate form in edit mode
+  useEffect(() => {
+    if (data?.data) {
+      const book = data.data
+      form.reset({
+        title: book.title || "",
+        author: book.author || "",
+        isbn: book.isbn || "",
+        copies: book.copies || 1,
+        description: book.description || "",
+        genre: book.genre || "",
+      })
     }
+  }, [data, form])
+
+  const onSubmit = async (formData: z.infer<typeof FormSchema>) => {
+    try {
+      if (id) {
+        await updateBook( {id, body: formData} )
+        toast.success("Book updated successfully")
+        navigate(`/books/${id}`)
+      } else {
+        const bookData = { ...formData, available: true }
+        await addBook(bookData)
+        toast.success("Book added successfully")
+        navigate('/books')
+      }
+    } catch (error) {
+      toast.error("Something went wrong")
+      console.error(error)
+    }
+  }
+
+  if (id && isLoading) return <div>Loading...</div>
+
+    
 
     return (
         <div className="w-100 flex flex-col items-center justify-center">
-            <h1>Add a new book</h1>
+            <h1>{ id ? 'Update book' : 'Add a new book'}</h1>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
                     <FormField
@@ -80,7 +114,9 @@ export default function AddBook() {
                             <FormItem>
                                 <FormLabel>Title</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Title" {...field} />
+                                    <Input
+                                    //  value={id ? data?.data.title : field.value} 
+                                     placeholder="Title" {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -152,7 +188,7 @@ export default function AddBook() {
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Genre</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <Select onValueChange={field.onChange} defaultValue={id ? data?.data.genre : field.value}>
                                     <FormControl>
                                         <SelectTrigger>
                                             <SelectValue placeholder="Select Genre" />
