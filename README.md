@@ -21,12 +21,12 @@ A minimal library management system using React, Redux Toolkit Query (RTK Query)
 - /borrow/:bookId – Modal having Form to borrow a selected book.
 - /borrow-summary – Displays an aggregated summary of all borrowed books.
 
-### Technical Requirements (Frontend + API Integration)
+### Technical Integration (Frontend + API Integration)
 
 1. API Integration
 
 - Consume backend endpoints via RTK Query in the frontend.
-- All API calls should be typed and organized using Redux Toolkit Query best practices.
+- All API calls typed and organized using Redux Toolkit Query best practices.
 
 2. State Management
 
