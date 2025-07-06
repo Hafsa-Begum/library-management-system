@@ -46,9 +46,10 @@ export default function AllBooks() {
                 <Link to={`/edit-book/${book._id}`}>
                   Edit
                 </Link>
-                <div>
+                {book.available ? <div>
                   <BorrowBookDialog book={book} />
                 </div>
+                  : "Not Available"}
               </div>
             </Card>
 

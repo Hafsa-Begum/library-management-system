@@ -1,13 +1,19 @@
 "use client"
 
 import { Card } from '@/components/ui/card';
-import { useGetAllBookQuery } from '@/redux/api/bookApi';
+import { useDeleteBookMutation, useGetAllBookQuery } from '@/redux/api/bookApi';
 import { Link } from 'react-router'
 import BorrowBookDialog from './BorrowBookDialog';
 
 
 
 export default function HomeBook() {
+    const [deleteBook] = useDeleteBookMutation(undefined)
+
+  const handleDeleteBook = async (id: string) => {
+    console.log("id", id)
+    await deleteBook(id)
+  }
     const { data, isLoading } = useGetAllBookQuery(undefined);
     if (isLoading) return <div>Loading...</div>;
 

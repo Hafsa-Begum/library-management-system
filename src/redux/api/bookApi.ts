@@ -22,7 +22,7 @@ export const bookApi = createApi({
         method: "POST",
         body,
       }),
-      // invalidatesTags:["book"]
+      invalidatesTags:["book"]
     }),
     updateBook: builder.mutation({
       query: ({id, body}) => ({

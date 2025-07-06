@@ -53,7 +53,7 @@ export default function BorrowBookDialog(book: any) {
 
     }
     return (
-        <Dialog className="bg-blue-100 text-blue-900 dark:bg-blue-950 dark:text-blue-100">
+        <Dialog>
             <DialogTrigger asChild>
                 <Button variant="outline">Borrow Book</Button>
             </DialogTrigger>
@@ -72,7 +72,7 @@ export default function BorrowBookDialog(book: any) {
                                 <FormField
                                     control={form.control}
                                     name="book"
-                                    render={({ field }) => (
+                                    render={() => (
                                         <FormItem>
                                             <FormControl>
                                                 <Input
@@ -92,7 +92,7 @@ export default function BorrowBookDialog(book: any) {
                                                 <Input
                                                     type="number"
                                                     placeholder="quantity"
-                                                    value={field.value}
+                                                    // value={field.value}
                                                     onChange={(e) => field.onChange(+e.target.value)} />
                                             </FormControl>
                                             <FormMessage />
@@ -117,7 +117,7 @@ export default function BorrowBookDialog(book: any) {
                                                                 !field.value && "text-muted-foreground"
                                                             )}
                                                         >
-                                                            {field.value ? (
+                                                            {field.value instanceof Date ? (
                                                                 format(field.value, "PPP")
                                                             ) : (
                                                                 <span>Due Date</span>
@@ -129,9 +129,9 @@ export default function BorrowBookDialog(book: any) {
                                                 <PopoverContent className="bg-blue-100 text-blue-900 dark:bg-blue-950 dark:text-blue-100 w-auto p-0" align="start">
                                                     <Calendar
                                                         mode="single"
-                                                        selected={field.value}
+                                                        // selected={field.value}
                                                         onSelect={field.onChange}
-                                                        disabled={(date) =>
+                                                        disabled={(date:Date) =>
                                                             date <= new Date()
                                                         }
                                                         captionLayout="dropdown"
