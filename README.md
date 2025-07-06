@@ -2,7 +2,8 @@
 
 A minimal library management system using React, Redux Toolkit Query (RTK Query), and TypeScript. The system will allow users to view a list of books, perform CRUD operations, borrow books, and view a simple borrow summary.
 
-- [live link](https://library-management-system-mu-weld.vercel.app) 
+- [Live link](https://library-management-system-mu-weld.vercel.app) 
+- [Server link](https://library-management-server-test.vercel.app) 
 
 ## Features
 ### Landing Page Components
@@ -10,7 +11,7 @@ A minimal library management system using React, Redux Toolkit Query (RTK Query)
   All Books
   Add Book
   Borrow Summary
-- Book Table/List/Grid: Display list of books with all core actions.
+- Book: Display books in grid view with all core actions.
 - Footer: Standard footer with site info or credits.
 
 ### Page List or Modal
