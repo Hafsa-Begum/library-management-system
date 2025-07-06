@@ -32,6 +32,13 @@ export const bookApi = createApi({
       }),
       invalidatesTags:["book"]
     }),
+    deleteBook: builder.mutation({
+      query: (id:string) => ({
+        url: `/api/books/${id}`,
+        method: "DELETE"
+      }),
+      invalidatesTags:["book"]
+    }),
   }),
 });
 
@@ -39,5 +46,6 @@ export const {
   useGetAllBookQuery, 
   useGetSingleBookQuery, 
   useAddBookMutation,
-  useUpdateBookMutation
+  useUpdateBookMutation,
+  useDeleteBookMutation
 }=bookApi;

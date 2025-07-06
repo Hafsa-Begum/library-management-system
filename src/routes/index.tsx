@@ -4,6 +4,7 @@ import AddBook from '@/pages/AddBook';
 import {createBrowserRouter} from 'react-router';
 import BorrowSummery from '@/pages/BorrowSummery';
 import SingleBook from '@/pages/SingleBook';
+import HomeBook from '@/features/home/HomeBook';
 
 const router = createBrowserRouter([
     {
@@ -11,6 +12,10 @@ const router = createBrowserRouter([
         // element: <App/>
         Component: App,
         children:[
+            {
+                path: "",
+                Component: HomeBook
+            },
             {
                 path: "books",
                 Component: AllBooks

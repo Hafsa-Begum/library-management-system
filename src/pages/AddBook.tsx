@@ -103,8 +103,9 @@ export default function AddBook() {
     
 
     return (
-        <div className="w-100 flex flex-col items-center justify-center">
-            <h1>{ id ? 'Update book' : 'Add a new book'}</h1>
+    <>
+        <div className="flex flex-col items-center justify-center w-2xl py-8 mx-auto">
+            <h1 className="text-2xl my-8">{ id ? 'Update book' : 'Add a new book'}</h1>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
                     <FormField
@@ -182,7 +183,7 @@ export default function AddBook() {
                             </FormItem>
                         )}
                     />
-                    <FormField
+                    <FormField 
                         control={form.control}
                         name="genre"
                         render={({ field }) => (
@@ -194,7 +195,7 @@ export default function AddBook() {
                                             <SelectValue placeholder="Select Genre" />
                                         </SelectTrigger>
                                     </FormControl>
-                                    <SelectContent>
+                                    <SelectContent className="bg-blue-100 mt-8">
                                         <SelectItem value="FICTION">Fiction</SelectItem>
                                         <SelectItem value="NON_FICTION">Non-fiction</SelectItem>
                                         <SelectItem value="SCIENCE">Science</SelectItem>
@@ -208,9 +209,10 @@ export default function AddBook() {
                         )}
                     />
                     
-                    <Button type="submit">Submit</Button>
+                    <Button variant="outline" type="submit">Submit</Button>
                 </form>
             </Form>
         </div>
+        </>
     )
 }

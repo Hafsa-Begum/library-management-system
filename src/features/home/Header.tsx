@@ -1,4 +1,5 @@
-import {Link} from 'react-router'
+import {Link} from 'react-router';
+import { BookOpenText } from 'lucide-react';
 
 const routes = [
     {
@@ -24,12 +25,13 @@ const routes = [
   ]
 const Header = () => {
     return (
-      <div className="shadow-md text-gray-600">
+      <div className="bg-blue-100 shadow-lg text-gray-600 py-4">
         <div className="container mx-auto flex items-center justify-between py-4 px-6">
           {/* Logo */}
-          <div className="text-2xl font-bold">
-            <Link className="hover:text-gray-300" to="/">
-              Logo
+          <div className="text-xl">
+            <Link className="hover:text-gray-100" to="/">
+            <BookOpenText />
+              LMS
             </Link>
           </div>
   

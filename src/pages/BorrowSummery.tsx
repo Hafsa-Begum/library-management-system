@@ -3,7 +3,6 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -15,9 +14,9 @@ export default function BorrowSummery() {
   // console.log("data", data.data)
   if (isLoading) return <div>Loading...</div>;
   return (
-    <div className="flex flex-col items-center justify-center">
-      <Table className="w-100">
-        <TableCaption>A list of Borrowed Book Summery.</TableCaption>
+    <div className="flex items-center justify-center w-2xl py-8 mx-auto">
+      <Table>
+        <TableCaption className="text-2xl mb-32">A list of Borrowed Book Summery.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">Book Title</TableHead>
@@ -34,9 +33,6 @@ export default function BorrowSummery() {
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter>
-
-        </TableFooter>
       </Table>
     </div>
   )

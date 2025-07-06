@@ -11,8 +11,17 @@ export const borrowApi = createApi({
     getBorrowSummery:builder.query({
         query:()=>"/api/borrow",
         providesTags:["borrow"]
-    })
+    }),
+
+    borrowBook: builder.mutation({
+      query: (body) => ({
+        url: "/api/borrow",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags:["borrow"]
+    }),
   }),
 });
 
-export const {useGetBorrowSummeryQuery}=borrowApi;
+export const {useGetBorrowSummeryQuery, useBorrowBookMutation}=borrowApi;
