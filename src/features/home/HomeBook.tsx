@@ -21,7 +21,7 @@ export default function HomeBook() {
     return (
         <>
             <section className="grid grid-cols-4 gap-4 p-4 my-8">
-                {data.data.slice(0, 4).map((book: any) => {
+                {data?.data.slice(0, 4).map((book: any) => {
                     return (
                         // <Link to={`/books/${book._id}`}>
                         <Card
