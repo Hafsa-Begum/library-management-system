@@ -5,6 +5,24 @@ A minimal library management system using React, Redux Toolkit Query (RTK Query)
 - [Live link](https://library-management-system-mu-weld.vercel.app) 
 - [Server link](https://library-management-server-test.vercel.app) 
 
+## Project Setup Instructions
+1. Clone the project.
+```
+git clone https://github.com/Hafsa-Begum/library-management-system.git
+cd library-management-system
+
+```
+2. Install dependencies. Recomended node version v22.11.0
+```
+bun install
+
+```
+3. Run locally (in dev mode)
+```
+bun dev
+
+```
+
 ## Features
 ### Landing Page Components
 - Navbar: Simple navigation bar with links to:

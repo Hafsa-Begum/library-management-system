@@ -7,51 +7,47 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { cn } from '@/lib/utils'
 import { CalendarIcon } from "lucide-react"
 import { format } from "date-fns"
-import { useEffect } from 'react'
 import { useBorrowBookMutation } from '@/redux/api/borrowApi'
-import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
-import { z } from "zod"
-import {useNavigate} from "react-router"
+import { useNavigate } from "react-router"
 
 type BorrowBook = { book: string; quantity: number; dueDate: Date; }
+type Book = {
+    _id: string,
+    title: string,
+    author: string,
+    description?: string,
+    genre: string, 
+    isbn: string,
+    copies: number,
+    available: boolean
+}
 
-const FormSchema = z.object<BorrowBook>({
-    book: z.string({
-        required_error: "Book id is must needed."
-    }),
-    quantity: z.number({
-        required_error: "Quantity is required.",
-    })
-        .min(1, { message: "At least one quantity is required." }),
-    dueDate: z.date({
-        required_error: "A due date is required.",
-    }),
-})
 
-export default function BorrowBookDialog(book: any) {
+export default function BorrowBookDialog(book:any) {
+    const bookData:Book = book.book;
 
-    useEffect(() => {
-        console.log("book", book.book)
-    }, [])
-    const form = useForm<z.infer<typeof FormSchema>>({
-        resolver: zodResolver(FormSchema),
+    // useEffect(() => {
+    //     console.log("book", book.book)
+    // }, [])
+    const form = useForm<BorrowBook>({
         defaultValues: {
-            book: book.book._id,
-            quantity: 1,
-            dueDate: Date
+            book: bookData._id,
+                quantity: 1,
+                dueDate: undefined
         }
     })
     const navigate = useNavigate()
     const [borrwBook] = useBorrowBookMutation();
-    async function onSubmit(data: z.infer<typeof FormSchema>) {
-        console.log("borrow data", data)
-        await borrwBook(data);
+    async function onSubmit(formData: BorrowBook) {
+        console.log("borrow data", formData)
+        await borrwBook(formData);
         toast("Book borrowed successfully.")
         navigate("/borrow-summery")
 
     }
+    
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -64,7 +60,7 @@ export default function BorrowBookDialog(book: any) {
                         <DialogHeader>
                             <DialogTitle>Borrow Book</DialogTitle>
                             <DialogDescription>
-                                Title: {book.book.title}.
+                                Title: {bookData.title}.
                             </DialogDescription>
                         </DialogHeader>
                         <div className="grid gap-4">
@@ -77,6 +73,7 @@ export default function BorrowBookDialog(book: any) {
                                             <FormControl>
                                                 <Input
                                                     type="hidden"
+                                                    value={bookData._id}
                                                 />
                                             </FormControl>
                                         </FormItem>
@@ -91,9 +88,13 @@ export default function BorrowBookDialog(book: any) {
                                             <FormControl>
                                                 <Input
                                                     type="number"
-                                                    placeholder="quantity"
-                                                    // value={field.value}
-                                                    onChange={(e) => field.onChange(+e.target.value)} />
+                                                    value={field.value ?? ""} // keep number or empty string
+                                                    onChange={(e) => {
+                                                        const value = e.target.value;
+                                                        field.onChange(value === "" ? undefined : +value); // convert to number
+                                                    }}
+                                                    placeholder="Quantity"
+                                                />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -117,7 +118,7 @@ export default function BorrowBookDialog(book: any) {
                                                                 !field.value && "text-muted-foreground"
                                                             )}
                                                         >
-                                                            {field.value instanceof Date ? (
+                                                            {field.value ? (
                                                                 format(field.value, "PPP")
                                                             ) : (
                                                                 <span>Due Date</span>
@@ -131,7 +132,7 @@ export default function BorrowBookDialog(book: any) {
                                                         mode="single"
                                                         // selected={field.value}
                                                         onSelect={field.onChange}
-                                                        disabled={(date:Date) =>
+                                                        disabled={(date: Date) =>
                                                             date <= new Date()
                                                         }
                                                         captionLayout="dropdown"
@@ -149,7 +150,7 @@ export default function BorrowBookDialog(book: any) {
                                 <Button variant="outline">Cancel</Button>
                             </DialogClose>
                             {/* <Link to="/borrow-summery"> */}
-                                <Button type="submit">Borrow</Button>
+                            <Button type="submit">Borrow</Button>
                             {/* </Link> */}
                         </DialogFooter>
                     </form>
